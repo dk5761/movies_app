@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:1078099840601:ios:a7c06a99109b85b8f2eb48",
-  "FIREBASE_PROJECT_ID": "flutter-app-data",
-  "GCM_SENDER_ID": "1078099840601"
+  "GOOGLE_APP_ID": "1:246609540372:ios:0d62d88c234e0f1ab33e01",
+  "FIREBASE_PROJECT_ID": "movies-app-b39ff",
+  "GCM_SENDER_ID": "246609540372"
 }

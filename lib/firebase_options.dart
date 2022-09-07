@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBw8IHSsS8yFHTu9fWkMLPWwwT2KHD-fBo',
-    appId: '1:1078099840601:web:37edea2303047331f2eb48',
-    messagingSenderId: '1078099840601',
-    projectId: 'flutter-app-data',
-    authDomain: 'flutter-app-data.firebaseapp.com',
-    storageBucket: 'flutter-app-data.appspot.com',
-    measurementId: 'G-KSQK38NT64',
+    apiKey: 'AIzaSyDWtlJbTeKvS50jgizCadUzUH8-AEOt02M',
+    appId: '1:246609540372:web:f2d28af43a575fd5b33e01',
+    messagingSenderId: '246609540372',
+    projectId: 'movies-app-b39ff',
+    authDomain: 'movies-app-b39ff.firebaseapp.com',
+    storageBucket: 'movies-app-b39ff.appspot.com',
+    measurementId: 'G-ERTTY6J1PX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCt5AY3TklQRwP3msXS2u9sk-0F5RqrBiM',
-    appId: '1:1078099840601:android:9a12b3b72b682b8cf2eb48',
-    messagingSenderId: '1078099840601',
-    projectId: 'flutter-app-data',
-    storageBucket: 'flutter-app-data.appspot.com',
+    apiKey: 'AIzaSyDC47IPzuQnO5y2oKo9EJROuO_cSYDB8Yg',
+    appId: '1:246609540372:android:8a9a5327616b27e2b33e01',
+    messagingSenderId: '246609540372',
+    projectId: 'movies-app-b39ff',
+    storageBucket: 'movies-app-b39ff.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCEEwhLFfI3-h42V5LogilQR19jJvqZHb8',
-    appId: '1:1078099840601:ios:a7c06a99109b85b8f2eb48',
-    messagingSenderId: '1078099840601',
-    projectId: 'flutter-app-data',
-    storageBucket: 'flutter-app-data.appspot.com',
-    iosClientId: '1078099840601-2too43vt15qbsum8n7ms9i52rjse9nof.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAw4ZqCjOQb2qQyVfFTdYV_3Pn5NnspIhY',
+    appId: '1:246609540372:ios:0d62d88c234e0f1ab33e01',
+    messagingSenderId: '246609540372',
+    projectId: 'movies-app-b39ff',
+    storageBucket: 'movies-app-b39ff.appspot.com',
+    iosClientId: '246609540372-5k882dfg2m32ne8g850dn5efbhnnirch.apps.googleusercontent.com',
     iosBundleId: 'com.example.moviesApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCEEwhLFfI3-h42V5LogilQR19jJvqZHb8',
-    appId: '1:1078099840601:ios:a7c06a99109b85b8f2eb48',
-    messagingSenderId: '1078099840601',
-    projectId: 'flutter-app-data',
-    storageBucket: 'flutter-app-data.appspot.com',
-    iosClientId: '1078099840601-2too43vt15qbsum8n7ms9i52rjse9nof.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAw4ZqCjOQb2qQyVfFTdYV_3Pn5NnspIhY',
+    appId: '1:246609540372:ios:0d62d88c234e0f1ab33e01',
+    messagingSenderId: '246609540372',
+    projectId: 'movies-app-b39ff',
+    storageBucket: 'movies-app-b39ff.appspot.com',
+    iosClientId: '246609540372-5k882dfg2m32ne8g850dn5efbhnnirch.apps.googleusercontent.com',
     iosBundleId: 'com.example.moviesApp',
   );
 }

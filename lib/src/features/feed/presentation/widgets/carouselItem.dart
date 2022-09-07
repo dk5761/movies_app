@@ -1,64 +1,104 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/src/common/test.dart';
 import 'package:movies_app/src/features/feed/domain/movie.dart';
+import 'package:movies_app/src/features/feed/presentation/pages/movie_info.dart';
 
 class CarouselItem extends ConsumerWidget {
-  const CarouselItem({Key? key}) : super(key: key);
+  const CarouselItem({Key? key, required this.item, this.active = false})
+      : super(key: key);
+
+  final Movie item;
+  final bool active;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final height = size.height / 2;
-    final width = size.width / 1.75;
+    double margin = active ? 16 : 34;
 
-    final storageUrl =
-        'https://firebasestorage.googleapis.com/v0/b/flutter-app-data.appspot.com/o/';
-
-    final item = Movie.fromJson(carouselData[0]);
-
-    getURL(String imageName) async {
-      final fRef = FirebaseStorage.instance
-          .ref()
-          .child(item.title)
-          .child("${imageName}.jpg");
-
-      return await fRef.getDownloadURL();
-    }
-
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-      height: height,
-      width: width,
-      child: Column(
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                "https://firebasestorage.googleapis.com/v0/b/flutter-app-data.appspot.com/o/${item.title}/poster.jpg",
-                height: size.height / 1.7,
-                width: double.infinity,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MovieInfoPage(
+                    item: item,
+                  )),
+        );
+      },
+      child: AnimatedContainer(
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOutCubic,
+        margin: EdgeInsets.symmetric(horizontal: margin / 2, vertical: margin),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: AnimatedContainer(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  boxShadow: [
+                    BoxShadow(
+                        offset:
+                            active ? const Offset(0, 20) : const Offset(0, 0),
+                        color: Colors.grey,
+                        blurRadius: 10.0,
+                        spreadRadius: active ? -12 : -2)
+                  ],
+                ),
+                duration: const Duration(seconds: 1),
+                // Provide an optional curve to make the animation feel smoother.
+                curve: Curves.fastOutSlowIn,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Hero(
+                    tag: item.id,
+                    child: Image.network(item.poster_url,
+                        height: size.height / 1.7,
+                        width: double.infinity,
+                        fit: BoxFit.cover, loadingBuilder:
+                            (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    }),
+                  ),
+                ),
               ),
             ),
-          ),
-          Text(
-            item.title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Row(
-            children: item.categories
-                .map((e) => Text(
-                      e,
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 180, 175, 175),
-                          fontSize: 14),
-                    ))
-                .toList(),
-          )
-        ],
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              item.title,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: active
+                      ? Colors.black
+                      : Color.fromARGB(255, 130, 128, 128)),
+            ),
+            Wrap(
+              children: item.categories
+                  .map((e) => Text(
+                        "$e,",
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 180, 175, 175),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ))
+                  .toList(),
+            )
+          ],
+        ),
       ),
     );
   }

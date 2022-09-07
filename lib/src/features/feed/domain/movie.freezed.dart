@@ -20,6 +20,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Movie {
+  String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   List<String> get categories => throw _privateConstructorUsedError;
   String get poster_url => throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ abstract class $MovieCopyWith<$Res> {
   factory $MovieCopyWith(Movie value, $Res Function(Movie) then) =
       _$MovieCopyWithImpl<$Res>;
   $Res call(
-      {String title,
+      {String id,
+      String title,
       List<String> categories,
       String poster_url,
       String runtime,
@@ -57,6 +59,7 @@ class _$MovieCopyWithImpl<$Res> implements $MovieCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? title = freezed,
     Object? categories = freezed,
     Object? poster_url = freezed,
@@ -66,6 +69,10 @@ class _$MovieCopyWithImpl<$Res> implements $MovieCopyWith<$Res> {
     Object? movie_screenshots = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -104,7 +111,8 @@ abstract class _$$_MovieCopyWith<$Res> implements $MovieCopyWith<$Res> {
       __$$_MovieCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String title,
+      {String id,
+      String title,
       List<String> categories,
       String poster_url,
       String runtime,
@@ -124,6 +132,7 @@ class __$$_MovieCopyWithImpl<$Res> extends _$MovieCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? title = freezed,
     Object? categories = freezed,
     Object? poster_url = freezed,
@@ -133,6 +142,10 @@ class __$$_MovieCopyWithImpl<$Res> extends _$MovieCopyWithImpl<$Res>
     Object? movie_screenshots = freezed,
   }) {
     return _then(_$_Movie(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -169,7 +182,8 @@ class __$$_MovieCopyWithImpl<$Res> extends _$MovieCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Movie implements _Movie {
   _$_Movie(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required final List<String> categories,
       required this.poster_url,
       required this.runtime,
@@ -182,6 +196,8 @@ class _$_Movie implements _Movie {
   factory _$_Movie.fromJson(Map<String, dynamic> json) =>
       _$$_MovieFromJson(json);
 
+  @override
+  final String id;
   @override
   final String title;
   final List<String> _categories;
@@ -208,7 +224,7 @@ class _$_Movie implements _Movie {
 
   @override
   String toString() {
-    return 'Movie(title: $title, categories: $categories, poster_url: $poster_url, runtime: $runtime, imdb_score: $imdb_score, description: $description, movie_screenshots: $movie_screenshots)';
+    return 'Movie(id: $id, title: $title, categories: $categories, poster_url: $poster_url, runtime: $runtime, imdb_score: $imdb_score, description: $description, movie_screenshots: $movie_screenshots)';
   }
 
   @override
@@ -216,6 +232,7 @@ class _$_Movie implements _Movie {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Movie &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality()
                 .equals(other._categories, _categories) &&
@@ -234,6 +251,7 @@ class _$_Movie implements _Movie {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(_categories),
       const DeepCollectionEquality().hash(poster_url),
@@ -257,7 +275,8 @@ class _$_Movie implements _Movie {
 
 abstract class _Movie implements Movie {
   factory _Movie(
-      {required final String title,
+      {required final String id,
+      required final String title,
       required final List<String> categories,
       required final String poster_url,
       required final String runtime,
@@ -267,6 +286,8 @@ abstract class _Movie implements Movie {
 
   factory _Movie.fromJson(Map<String, dynamic> json) = _$_Movie.fromJson;
 
+  @override
+  String get id;
   @override
   String get title;
   @override

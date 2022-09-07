@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/firebase_options.dart';
 import 'package:movies_app/src/app.dart';
 
@@ -24,5 +25,5 @@ void main() async {
 
   await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }

@@ -8,17 +8,30 @@ class HomeFeedPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
         title: Row(children: const [
-          Icon(Icons.movie),
+          Icon(
+            Icons.movie,
+            color: Colors.black,
+          ),
           Text(
             "Movies",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           )
         ]),
       ),
       body: SingleChildScrollView(
-        child: Column(children: const [RecentCarousel()]),
+        child: Column(
+          children: [
+            const Carousel(
+              title: "Recents",
+            ),
+            Container()
+          ],
+        ),
       ),
     );
   }
