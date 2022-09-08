@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/src/features/feed/domain/movie.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:movies_app/src/utils/scroll_configuration.dart';
 
-import '../../../../utils/scroll_configuration.dart';
-import '../widgets/panel.dart';
+import '../../domain/movie.dart';
 
-class MovieInfoPage extends ConsumerStatefulWidget {
-  const MovieInfoPage({Key? key, required this.item, required this.context})
+class SliverPage extends ConsumerStatefulWidget {
+  const SliverPage({Key? key, required this.item, required this.context})
       : super(key: key);
-
   final Movie item;
   final BuildContext context;
-
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MovieInfoPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SliverPageState();
 }
 
-class _MovieInfoPageState extends ConsumerState<MovieInfoPage>
+class _SliverPageState extends ConsumerState<SliverPage>
     with TickerProviderStateMixin {
   late Animation<double> slideAnimation;
   late AnimationController controller;

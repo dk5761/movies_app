@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/src/features/feed/presentation/pages/homeFeed.dart';
+import 'package:movies_app/src/utils/scroll_configuration.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -11,7 +12,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeFeedPage(),
+      home: ScrollConfiguration(
+          behavior: MyBehavior(), child: SafeArea(child: const HomeFeedPage())),
     );
   }
 }

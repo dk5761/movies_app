@@ -54,3 +54,4 @@ lib/firebase_options.dart
 macos/firebase_app_id_file.json
 android/app/google-services.json
 android/app/google-services.json
+android/app/google-services.json

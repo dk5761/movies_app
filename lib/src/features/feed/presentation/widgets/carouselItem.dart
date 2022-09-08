@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/src/features/feed/domain/movie.dart';
 import 'package:movies_app/src/features/feed/presentation/pages/movie_info.dart';
 
+import '../pages/sliver.dart';
+
 class CarouselItem extends ConsumerWidget {
   const CarouselItem({Key? key, required this.item, this.active = false})
       : super(key: key);
@@ -22,6 +24,7 @@ class CarouselItem extends ConsumerWidget {
           MaterialPageRoute(
               builder: (context) => MovieInfoPage(
                     item: item,
+                    context: context,
                   )),
         );
       },

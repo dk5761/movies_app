@@ -73,7 +73,7 @@ const carouselData = [
     "runtime": "1h 40min",
     "imdb_score": 7.9,
     "description":
-        "Earth is at peace after The Tournament of Power but Goku continues to train, knowing there are ever-stronger forces in the universe. With the arrival of a Saiyan warrior named Broly, Goku and Vegeta face their most dangerous challenge yet.",
+        "Yuta Okkotsu gains control of an extremely powerful, cursed spirit and gets enrolled in the Tokyo Prefectural Jujutsu High School by sorcerers to help him control his power and keep an eye on him.",
     "movie_screenshots": [
       "https://m.media-amazon.com/images/M/MV5BNmJkNGNiZWUtY2MyZS00NzFmLTkzOTYtNGE0NzE0YTFhZTJjXkEyXkFqcGdeQXVyMTAxMzgzNzYz._V1_.jpg",
       "https://staticg.sportskeeda.com/editor/2021/12/268ad-16403569439768-1920.jpg",
