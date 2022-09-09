@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/src/features/feed/domain/movie.dart';
-import 'package:movies_app/src/features/feed/presentation/widgets/movieInfoBottomNavButton.dart';
+import 'package:movies_app/src/features/feed/presentation/widgets/movie_info_appbar.dart';
+import 'package:movies_app/src/features/feed/presentation/widgets/movie_info_bottom_nav_button.dart';
 import 'package:movies_app/src/features/feed/presentation/widgets/movie_panel_info_widgets.dart';
 import 'package:movies_app/src/features/feed/presentation/widgets/play_button.dart';
 
@@ -22,11 +23,13 @@ class _MovieInfoPageState extends ConsumerState<MovieInfoPage>
     with TickerProviderStateMixin {
   late Animation<double> slideAnimation;
   late AnimationController controller;
+
+  late Animation<double> opacityAnimation;
   late AnimationController opacityController;
+
   late Animation<double> appBarAnimation;
   late AnimationController appBarController;
 
-  late Animation<double> opacityAnimation;
   late DraggableScrollableController dragController;
 
   final text =
@@ -93,56 +96,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
       child: Scaffold(
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          leading: AnimatedContainer(
-            duration: const Duration(seconds: 1),
-            margin: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(80, 30, 30, 30),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Center(
-                child: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-            )),
-          ),
-          backgroundColor: Colors.transparent,
-          title: AnimatedBuilder(
-              animation: appBarController,
-              builder: (context, child) {
-                return Opacity(
-                  opacity: appBarAnimation.value,
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(widget.item.title),
-                        Text(widget.item.runtime),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              end: Alignment.bottomCenter,
-              begin: Alignment.topCenter,
-              colors: [
-                Colors.black,
-                Colors.black.withOpacity(0.6),
-                Colors.black.withOpacity(0.0),
-              ],
-            )),
-          ),
-          actions: [Icon(Icons.bookmark_outlined)],
-        ),
         body: Stack(
           children: [
             Hero(
@@ -152,6 +105,10 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                   width: double.maxFinite,
                   fit: BoxFit.fitWidth),
             ),
+            MovieInfoAppBar(
+                item: widget.item,
+                animationController: appBarController,
+                animationValue: appBarAnimation),
             AnimatedBuilder(
                 animation: controller,
                 builder: (context, child) {

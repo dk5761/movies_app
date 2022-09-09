@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/src/features/feed/data/feed_repo.dart';
-import 'package:movies_app/src/features/feed/presentation/widgets/carouselItem.dart';
+import 'package:movies_app/src/features/feed/presentation/widgets/carouse_item.dart';
 
 class Carousel extends ConsumerStatefulWidget {
   const Carousel({Key? key, this.title = ""}) : super(key: key);
@@ -67,10 +67,6 @@ class _CarouselState extends ConsumerState<Carousel> {
                       item: data[index],
                       active: index == activePage,
                     );
-                    // return Container(
-                    //   margin: const EdgeInsets.all(10),
-                    //   child: Image.network(data[index].poster_url),
-                    // );
                   },
                 ),
               );
