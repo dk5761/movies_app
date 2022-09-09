@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/src/features/feed/domain/movie.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:movies_app/src/features/feed/presentation/widgets/movieInfoBottomNavButton.dart';
+import 'package:movies_app/src/features/feed/presentation/widgets/movie_panel_info_widgets.dart';
+import 'package:movies_app/src/features/feed/presentation/widgets/play_button.dart';
 
 import '../../../../utils/scroll_configuration.dart';
-import '../widgets/panel.dart';
 
 class MovieInfoPage extends ConsumerStatefulWidget {
   const MovieInfoPage({Key? key, required this.item, required this.context})
@@ -22,6 +23,8 @@ class _MovieInfoPageState extends ConsumerState<MovieInfoPage>
   late Animation<double> slideAnimation;
   late AnimationController controller;
   late AnimationController opacityController;
+  late Animation<double> appBarAnimation;
+  late AnimationController appBarController;
 
   late Animation<double> opacityAnimation;
   late DraggableScrollableController dragController;
@@ -40,7 +43,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     // modal slide up
     controller = AnimationController(
-        duration: const Duration(milliseconds: 1500), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
     slideAnimation = Tween<double>(begin: 0.35, end: 0.5).animate(
         CurvedAnimation(parent: controller, curve: Curves.easeInOutQuart));
 
@@ -55,15 +58,15 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     //start the slide animation as soon as the page loads
     controller.forward();
 
+    appBarController = AnimationController(
+        duration: const Duration(milliseconds: 500),
+        reverseDuration: const Duration(milliseconds: 200),
+        vsync: this);
+    appBarAnimation = Tween<double>(begin: 0, end: 1).animate(appBarController);
+
     // adding the play animation in transition to the slide
     // when the slide animation reaches the end
     // we start the play animation
-
-    controller.addListener(() {
-      if (slideAnimation.value == 0.5) {
-        opacityController.forward();
-      }
-    });
 
     dragController.addListener(() {
       var pixel = dragController.pixelsToSize(dragController.pixels);
@@ -72,6 +75,14 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
         opacityController.reverse();
       } else {
         opacityController.forward();
+      }
+
+      print(pixel);
+
+      if (pixel == 0.9) {
+        appBarController.forward();
+      } else if (pixel < 0.9) {
+        appBarController.reverse();
       }
     });
   }
@@ -103,6 +114,34 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
             )),
           ),
           backgroundColor: Colors.transparent,
+          title: AnimatedBuilder(
+              animation: appBarController,
+              builder: (context, child) {
+                return Opacity(
+                  opacity: appBarAnimation.value,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(widget.item.title),
+                        Text(widget.item.runtime),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              end: Alignment.bottomCenter,
+              begin: Alignment.topCenter,
+              colors: [
+                Colors.black,
+                Colors.black.withOpacity(0.6),
+                Colors.black.withOpacity(0.0),
+              ],
+            )),
+          ),
+          actions: [Icon(Icons.bookmark_outlined)],
         ),
         body: Stack(
           children: [
@@ -116,20 +155,16 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
             AnimatedBuilder(
                 animation: controller,
                 builder: (context, child) {
+                  // using an draggableScrollableSheet for the panel with drag animation
+                  // using animated builder to animate the movie as the page loads.
                   return DraggableScrollableSheet(
                     controller: dragController,
                     initialChildSize: slideAnimation.value,
                     maxChildSize: 0.9,
                     minChildSize: slideAnimation.value,
                     builder: (context, scrollController) {
-                      scrollController.addListener(() {
-                        print(scrollController.position);
-                      });
                       return Container(
-                        // height: MediaQuery.of(context).size.height * 0.9 -
-                        // MediaQuery.of(context).viewPadding.top,
-                        padding:
-                            const EdgeInsets.only(left: 26, right: 26, top: 34),
+                        padding: const EdgeInsets.only(top: 34),
                         decoration: const BoxDecoration(
                             border: Border(top: BorderSide.none),
                             borderRadius: BorderRadius.only(
@@ -139,131 +174,30 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                         child: ScrollConfiguration(
                           behavior: MyBehavior(),
                           child: SingleChildScrollView(
-                            controller: scrollController,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.item.title,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 28),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Wrap(
-                                  children: widget.item.categories
-                                      .map((e) => Text(
-                                            "$e,",
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 180, 175, 175),
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ))
-                                      .toList(),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "Runtime : ${widget.item.runtime}",
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 180, 175, 175),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  text,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 83, 83, 83),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
+                              controller: scrollController, child: child!),
                         ),
                       );
                     },
                   );
-                }),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colors.white,
-                    Colors.white,
-                    Colors.white.withOpacity(0.0),
-                  ],
+                },
+                child: MoviePanelInfoWidgets(
+                  item: widget.item,
                 )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 45, vertical: 15),
-                      decoration: const BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(18))),
-                      child: const Text(
-                        "Buy Ticket",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            const Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: MovieInfoBottomNavButton()),
             Positioned.fill(
-              // left: 0,
-              // right: 0,
-              top: MediaQuery.of(context).size.height / 2.45,
+              top: MediaQuery.of(context).size.height / 2.4,
               child: AnimatedBuilder(
-                  animation: opacityController,
-                  builder: (context, child) {
-                    return Opacity(
+                animation: opacityController,
+                builder: (context, child) {
+                  return Opacity(
                       opacity: opacityAnimation.value,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                            boxShadow: const [
-                              BoxShadow(
-                                  offset: Offset(0, 12),
-                                  color: Colors.grey,
-                                  blurRadius: 15.0,
-                                  spreadRadius: -10)
-                            ],
-                          ),
-                          height: MediaQuery.of(context).size.width * 0.2,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: const Center(
-                              child: Icon(
-                            Icons.play_arrow_outlined,
-                            size: 42,
-                          )),
-                        ),
-                      ),
-                    );
-                  }),
+                      child: const PlayButton());
+                },
+              ),
             ),
           ],
         ),
